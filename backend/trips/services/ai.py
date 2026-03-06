@@ -6,6 +6,17 @@ from openai import OpenAI
 
 logger = logging.getLogger(__name__)
 
+# Module-level singleton — avoids re-instantiating the client on every request.
+_client: OpenAI | None = None
+
+
+def _get_client() -> OpenAI:
+    global _client
+    if _client is None:
+        _client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    return _client
+
+
 _SYSTEM_PROMPT = (
     "You are a professional business travel planner. "
     "Generate a detailed day-by-day itinerary for a business trip. "
@@ -35,7 +46,7 @@ def generate_itinerary_items(
     Raises:
         ValueError: if the API response is not a valid JSON array.
     """
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    client = _get_client()
 
     user_prompt = (
         f"Plan a business trip to {destination}.\n"
