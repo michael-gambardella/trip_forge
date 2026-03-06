@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class TripListCreateView(ListCreateAPIView):
-    queryset = Trip.objects.all()
+    queryset = Trip.objects.prefetch_related("itinerary_items")
     serializer_class = TripSerializer
 
     def create(self, request: Request, *args, **kwargs) -> Response:
