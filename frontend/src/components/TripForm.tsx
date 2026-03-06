@@ -43,122 +43,98 @@ export default function TripForm({ onTripCreated }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-      <h2>Plan a Business Trip</h2>
+    <div className="card">
+      <h2 className="form-title">Plan a Business Trip</h2>
 
-      <div style={{ marginBottom: "0.75rem" }}>
-        <label htmlFor="destination" style={{ display: "block", marginBottom: "0.25rem" }}>
-          Destination *
-        </label>
-        <input
-          id="destination"
-          name="destination"
-          value={form.destination}
-          onChange={handleChange}
-          required
-          placeholder="e.g. New York, NY"
-          style={{ width: "100%", padding: "0.5rem" }}
-        />
-      </div>
-
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "0.75rem" }}>
-        <div style={{ flex: 1 }}>
-          <label htmlFor="start_date" style={{ display: "block", marginBottom: "0.25rem" }}>
-            Start Date *
-          </label>
+      <form onSubmit={handleSubmit}>
+        <div className="field">
+          <label htmlFor="destination">Destination *</label>
           <input
-            id="start_date"
-            name="start_date"
-            type="date"
-            value={form.start_date}
+            id="destination"
+            name="destination"
+            value={form.destination}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "0.5rem" }}
+            placeholder="e.g. New York, NY"
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <label htmlFor="end_date" style={{ display: "block", marginBottom: "0.25rem" }}>
-            End Date *
-          </label>
-          <input
-            id="end_date"
-            name="end_date"
-            type="date"
-            value={form.end_date}
+
+        <div className="field-row">
+          <div className="field">
+            <label htmlFor="start_date">Start Date *</label>
+            <input
+              id="start_date"
+              name="start_date"
+              type="date"
+              value={form.start_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="end_date">End Date *</label>
+            <input
+              id="end_date"
+              name="end_date"
+              type="date"
+              value={form.end_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="field-row">
+          <div className="field">
+            <label htmlFor="budget">Budget *</label>
+            <input
+              id="budget"
+              name="budget"
+              type="number"
+              step="0.01"
+              min="0"
+              value={form.budget}
+              onChange={handleChange}
+              required
+              placeholder="e.g. 2500"
+            />
+          </div>
+          <div className="field narrow">
+            <label htmlFor="budget_currency">Currency</label>
+            <select
+              id="budget_currency"
+              name="budget_currency"
+              value={form.budget_currency}
+              onChange={handleChange}
+            >
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="JPY">JPY</option>
+              <option value="CAD">CAD</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="field">
+          <label htmlFor="purpose">Trip Purpose</label>
+          <textarea
+            id="purpose"
+            name="purpose"
+            value={form.purpose}
             onChange={handleChange}
-            required
-            style={{ width: "100%", padding: "0.5rem" }}
+            placeholder="e.g. Q2 sales conference, client meetings"
+            rows={3}
           />
         </div>
-      </div>
 
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "0.75rem" }}>
-        <div style={{ flex: 2 }}>
-          <label htmlFor="budget" style={{ display: "block", marginBottom: "0.25rem" }}>
-            Budget *
-          </label>
-          <input
-            id="budget"
-            name="budget"
-            type="number"
-            step="0.01"
-            min="0"
-            value={form.budget}
-            onChange={handleChange}
-            required
-            placeholder="e.g. 2500"
-            style={{ width: "100%", padding: "0.5rem" }}
-          />
-        </div>
-        <div style={{ flex: 1 }}>
-          <label
-            htmlFor="budget_currency"
-            style={{ display: "block", marginBottom: "0.25rem" }}
-          >
-            Currency
-          </label>
-          <select
-            id="budget_currency"
-            name="budget_currency"
-            value={form.budget_currency}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "0.5rem" }}
-          >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="JPY">JPY</option>
-            <option value="CAD">CAD</option>
-          </select>
-        </div>
-      </div>
+        {error && <p className="error-msg">{error}</p>}
 
-      <div style={{ marginBottom: "0.75rem" }}>
-        <label htmlFor="purpose" style={{ display: "block", marginBottom: "0.25rem" }}>
-          Trip Purpose
-        </label>
-        <textarea
-          id="purpose"
-          name="purpose"
-          value={form.purpose}
-          onChange={handleChange}
-          placeholder="e.g. Q2 sales conference, client meetings"
-          rows={3}
-          style={{ width: "100%", padding: "0.5rem" }}
-        />
-      </div>
-
-      {error && (
-        <p style={{ color: "crimson", marginBottom: "0.75rem" }}>{error}</p>
-      )}
-
-      <button
-        type="submit"
-        disabled={loading}
-        style={{ padding: "0.6rem 1.5rem", cursor: loading ? "not-allowed" : "pointer" }}
-      >
-        {loading ? "Generating itinerary…" : "Generate Itinerary"}
-      </button>
-    </form>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading && <span className="spinner" />}
+          {loading ? "Generating itinerary…" : "Generate Itinerary"}
+        </button>
+      </form>
+    </div>
   );
 }

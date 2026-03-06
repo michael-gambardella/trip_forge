@@ -27,7 +27,7 @@ class TripCreateTests(TestCase):
         self.client = APIClient()
         self.url = reverse("trip-list-create")
 
-    @patch("trips.services.ai.generate_itinerary_items")
+    @patch("trips.services.itinerary.generate_itinerary_items")
     def test_create_trip_returns_201_with_itinerary(self, mock_generate):
         mock_generate.return_value = MOCK_ITEMS
 
@@ -39,7 +39,7 @@ class TripCreateTests(TestCase):
         self.assertEqual(len(data["itinerary_items"]), 3)
         self.assertEqual(data["itinerary_items"][0]["activity"], "Fly to destination")
 
-    @patch("trips.services.ai.generate_itinerary_items")
+    @patch("trips.services.itinerary.generate_itinerary_items")
     def test_create_trip_persists_to_database(self, mock_generate):
         mock_generate.return_value = MOCK_ITEMS
 
@@ -60,7 +60,7 @@ class TripCreateTests(TestCase):
 
         self.assertEqual(response.status_code, 400)
 
-    @patch("trips.services.ai.generate_itinerary_items")
+    @patch("trips.services.itinerary.generate_itinerary_items")
     def test_create_trip_rolls_back_and_returns_502_when_ai_fails(self, mock_generate):
         mock_generate.side_effect = ValueError("OpenAI unavailable")
 
@@ -75,7 +75,7 @@ class TripListTests(TestCase):
         self.client = APIClient()
         self.url = reverse("trip-list-create")
 
-    @patch("trips.services.ai.generate_itinerary_items")
+    @patch("trips.services.itinerary.generate_itinerary_items")
     def test_list_returns_all_trips(self, mock_generate):
         mock_generate.return_value = MOCK_ITEMS
         self.client.post(self.url, data=VALID_PAYLOAD, format="json")
@@ -101,7 +101,7 @@ class TripDetailTests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-    @patch("trips.services.ai.generate_itinerary_items")
+    @patch("trips.services.itinerary.generate_itinerary_items")
     def test_retrieve_trip_includes_itinerary_items(self, mock_generate):
         mock_generate.return_value = MOCK_ITEMS
         create_resp = self.client.post(

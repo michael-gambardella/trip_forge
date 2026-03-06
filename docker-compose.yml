@@ -30,6 +30,7 @@ services:
       - .env
     environment:
       DATABASE_URL: postgres://tripforge:tripforge@db:5432/tripforge
+      ALLOWED_HOSTS: localhost,127.0.0.1,backend
     depends_on:
       db:
         condition: service_healthy
