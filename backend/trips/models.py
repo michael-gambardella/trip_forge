@@ -22,6 +22,8 @@ class ItineraryItem(models.Model):
         Trip, on_delete=models.CASCADE, related_name="itinerary_items"
     )
     day = models.PositiveIntegerField()
+    # Stored as HH:MM (zero-padded, 24-hour). The AI prompt enforces this format;
+    # lexicographic ordering is only correct when times are consistently zero-padded.
     time = models.CharField(max_length=10)
     activity = models.CharField(max_length=500)
     notes = models.TextField(blank=True)
