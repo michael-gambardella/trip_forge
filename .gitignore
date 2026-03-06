@@ -1,0 +1,31 @@
+# Environment — never commit real secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.sqlite3
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+.github/
