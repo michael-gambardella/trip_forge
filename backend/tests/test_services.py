@@ -10,11 +10,11 @@ from trips.services.itinerary import build_itinerary
 
 
 class GenerateItineraryItemsTests(TestCase):
-    @patch("trips.services.ai.OpenAI")
-    def test_returns_parsed_list_on_valid_json_response(self, mock_openai_cls):
+    @patch("trips.services.ai._get_client")
+    def test_returns_parsed_list_on_valid_json_response(self, mock_get_client):
         expected = [{"day": 1, "time": "10:00", "activity": "Arrive", "notes": "T5"}]
         mock_client = MagicMock()
-        mock_openai_cls.return_value = mock_client
+        mock_get_client.return_value = mock_client
         mock_client.chat.completions.create.return_value.choices[
             0
         ].message.content = json.dumps(expected)
@@ -25,10 +25,10 @@ class GenerateItineraryItemsTests(TestCase):
 
         self.assertEqual(result, expected)
 
-    @patch("trips.services.ai.OpenAI")
-    def test_raises_value_error_on_non_json_response(self, mock_openai_cls):
+    @patch("trips.services.ai._get_client")
+    def test_raises_value_error_on_non_json_response(self, mock_get_client):
         mock_client = MagicMock()
-        mock_openai_cls.return_value = mock_client
+        mock_get_client.return_value = mock_client
         mock_client.chat.completions.create.return_value.choices[
             0
         ].message.content = "Sorry, I cannot help with that."
@@ -38,10 +38,10 @@ class GenerateItineraryItemsTests(TestCase):
                 "London", "2025-07-01", "2025-07-03", "3000 USD", "Conference"
             )
 
-    @patch("trips.services.ai.OpenAI")
-    def test_raises_value_error_when_response_is_not_array(self, mock_openai_cls):
+    @patch("trips.services.ai._get_client")
+    def test_raises_value_error_when_response_is_not_array(self, mock_get_client):
         mock_client = MagicMock()
-        mock_openai_cls.return_value = mock_client
+        mock_get_client.return_value = mock_client
         mock_client.chat.completions.create.return_value.choices[
             0
         ].message.content = json.dumps({"day": 1, "activity": "Meeting"})
@@ -51,10 +51,10 @@ class GenerateItineraryItemsTests(TestCase):
                 "London", "2025-07-01", "2025-07-03", "3000 USD", "Conference"
             )
 
-    @patch("trips.services.ai.OpenAI")
-    def test_passes_correct_destination_in_prompt(self, mock_openai_cls):
+    @patch("trips.services.ai._get_client")
+    def test_passes_correct_destination_in_prompt(self, mock_get_client):
         mock_client = MagicMock()
-        mock_openai_cls.return_value = mock_client
+        mock_get_client.return_value = mock_client
         mock_client.chat.completions.create.return_value.choices[
             0
         ].message.content = json.dumps([])
