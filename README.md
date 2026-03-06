@@ -1,6 +1,6 @@
 # TripForge
 
-[![CI](https://github.com/YOUR_USERNAME/tripforge/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/tripforge/actions/workflows/ci.yml)
+[![CI](https://github.com/michael-gambardella/trip_forge/actions/workflows/ci.yml/badge.svg)](https://github.com/michael-gambardella/trip_forge/actions/workflows/ci.yml)
 
 An AI-powered business travel planner. Input a destination, dates, and budget — TripForge calls the OpenAI API to generate a structured day-by-day itinerary, stores it in PostgreSQL, and serves it through a clean REST API consumed by a React frontend.
 
